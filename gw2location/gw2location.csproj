@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="DynamicJson">
       <HintPath>DynamicJson.dll</HintPath>
@@ -43,7 +46,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gw2Coordinates.cs" />
+    <Compile Include="Model\Gw2Coordinates.cs" />
     <Compile Include="Gw2Location.cs" />
     <Compile Include="Gw2LocationStub.cs" />
     <Compile Include="Gw2MapEventArgs.cs" />
@@ -51,6 +54,10 @@
     <Compile Include="Gw2Map.cs" />
     <Compile Include="Gw2MapStateChangedEventArgs.cs" />
     <Compile Include="Gw2ServerMessageEventArgs.cs" />
+    <Compile Include="Model\Gw2CoordinatesIdentity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,6 +16,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Timers;
+using gw2map.Model;
+using Newtonsoft.Json;
 
 namespace gw2map
 {
@@ -28,6 +30,13 @@ namespace gw2map
 
         public Int64 Channel { get; set; }
         public String BaseUrl { get; set; }
+        public Gw2MapState State
+        {
+            get
+            {
+                return map.State;
+            }
+        }
 
         private  Gw2Map map;
 		private  Guid guid;
@@ -52,6 +61,7 @@ namespace gw2map
 
             map.Changed += new ChangedEventHandler(OnMapChanged);
             map.StateChanged += new StateChangedEventHandler(OnMapStateChanged);
+
 		}
 
         private void OnMapStateChanged(object sender, Gw2MapStateChangedEventArgs e)
@@ -70,9 +80,10 @@ namespace gw2map
 		private void OnMapChanged(object source, Gw2MapEventArgs e)
      	{
 			var coords = e.Coordinates;
+            coords.channel = Channel;
 			if(coords.identity.Length > 0) {
-				if(coords.mapId != currentmap){
-					currentmap = coords.mapId;
+				if(coords.map_id != currentmap){
+					currentmap = coords.map_id;
 					CacheMaps();
 				}
 
@@ -123,15 +134,7 @@ namespace gw2map
 
 			using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
 			{
-				string json = "{\"channel\":\"" + this.Channel.ToString() + 
-                    "\",\"id\":\"" + guid.ToString() +
-                    "\",\"identity\":\"" + coords.identity + 
-                    "\",\"world_id\":" + coords.worldId + 
-                    ",\"map_id\":" + coords.mapId + 
-                    ",\"x\":" + coords.x.ToString(CultureInfo.InvariantCulture) + 
-                    ",\"y\":"+coords.y.ToString(CultureInfo.InvariantCulture) +
-                    ",\"z\":"+coords.z.ToString(CultureInfo.InvariantCulture) +
-                    "}";
+                string json = JsonConvert.SerializeObject(coords);
 				streamWriter.Write(json);
 				streamWriter.Flush();
 				streamWriter.Close();

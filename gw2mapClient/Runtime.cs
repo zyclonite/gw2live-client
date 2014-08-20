@@ -62,7 +62,7 @@ namespace gw2mapClient
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 var result = streamReader.ReadToEnd();
-                return result.Equals("1.0.0.0");
+                return result.Equals("1.1.0.0");
             }
         }
     }

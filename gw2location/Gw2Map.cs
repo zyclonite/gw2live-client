@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
 using System.Timers;
+using gw2map.Model;
+using Newtonsoft.Json;
 
 namespace gw2map
 {
@@ -25,6 +27,7 @@ namespace gw2map
         private const string NAME = "MumbleLink";
         private const float METER_TO_INCH = 39.3701f;
         private int[] wvwmaps = new int[] {96,94,95,38};
+        private Gw2MapState state = Gw2MapState.Detached;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct LinkedMem
@@ -58,6 +61,17 @@ namespace gw2map
 
         public event StateChangedEventHandler StateChanged;
 
+        public Gw2MapState State {
+            get { return state; }
+            private set
+            {
+                if (value != state)
+                {
+                    state = value;
+                    OnStateChanged(new Gw2MapStateChangedEventArgs(state));
+                    
+                }
+        } }
 
         #region Win32
 
@@ -115,7 +129,6 @@ namespace gw2map
 		private Random rand = new Random();
         private uint lastTick = 0;
         private Gw2Coordinates last = new Gw2Coordinates();
-        private Gw2MapState mapState;
         private Timer aTimer;
         private Timer stateTimer; 
 
@@ -159,16 +172,15 @@ namespace gw2map
 
             stateTimer = new System.Timers.Timer();
             stateTimer.Elapsed += stateTimer_Elapsed;
-            stateTimer.Interval = 3000;
+            stateTimer.Interval = 10000;
             stateTimer.Enabled = true;
 
-            mapState = Gw2MapState.Detached;
+            State = Gw2MapState.Detached;
         }
 
         void stateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            mapState = Gw2MapState.Detached;
-            OnStateChanged(new Gw2MapStateChangedEventArgs(mapState));
+            State = Gw2MapState.Detached;
             stateTimer.Stop();
         }
 
@@ -179,7 +191,7 @@ namespace gw2map
 
             Gw2Coordinates previous = last;
             Gw2Coordinates coord = GetCoordinates(out currentTick);
-            if (previous != coord && FilterWvwMap(coord.mapId))
+            if (previous != coord && FilterWvwMap(coord.map_id))
             {
                 OnChanged(new Gw2MapEventArgs(coord));
             }
@@ -189,11 +201,7 @@ namespace gw2map
                 stateTimer.Stop();
                 stateTimer.Start();
 
-                if (mapState == Gw2MapState.Detached) 
-                {
-                    mapState = Gw2MapState.Attached;
-                    OnStateChanged(new Gw2MapStateChangedEventArgs(mapState));
-                }
+                State = Gw2MapState.Attached;
 
             }
 
@@ -225,17 +233,18 @@ namespace gw2map
 
 		public void Write()
 		{
+            Gw2CoordinatesIdentity rawIdentity = new Gw2CoordinatesIdentity();
+            rawIdentity.commander = true;
+            rawIdentity.name = "ZycloniteNetworks";
+            rawIdentity.profession = 6;
+            rawIdentity.team_color_id = 9;
 			lm.uiTick++;
-			lm.identity = "zyclonite";
+            lm.identity = JsonConvert.SerializeObject(rawIdentity);
             lm.fAvatarPosition[0] = (float)rand.NextDouble() * 100;
             lm.fAvatarPosition[1] = (float)rand.NextDouble() * 100;
             lm.fAvatarPosition[2] = (float)rand.NextDouble() * 100;
-            //lm.fAvatarPosition[0] = 100f;
-            //lm.fAvatarPosition[1] = 100f;
-            //lm.fAvatarPosition[2] = 100f;
             int map = 38;
-            //int map = 89;
-			int world = 2006;
+    		int world = 2006;
 			BitConverter.GetBytes(map).CopyTo(lm.context, 28);
 			BitConverter.GetBytes(world).CopyTo(lm.context, 36);
 			Marshal.StructureToPtr(lm, writeBufferHandle.AddrOfPinnedObject(), false);
@@ -256,6 +265,7 @@ namespace gw2map
             LinkedMem l = Read();
             if(l.name.Equals("Guild Wars 2") && (l.uiTick > lastTick))
             {
+                Gw2CoordinatesIdentity rawIdentity = JsonConvert.DeserializeObject<Gw2CoordinatesIdentity>(l.identity);
 			    Gw2Coordinates coord = new Gw2Coordinates();
 			    float x = l.fAvatarPosition [0];
 			    float y = l.fAvatarPosition [2];
@@ -263,9 +273,12 @@ namespace gw2map
             	coord.x = x * METER_TO_INCH; //west to east
             	coord.y = y * METER_TO_INCH; //north to south
             	coord.z = -z * METER_TO_INCH; //altitude
-            	coord.worldId = BitConverter.ToInt32(l.context, 36);
-            	coord.mapId = BitConverter.ToInt32(l.context, 28);
-				coord.identity = l.identity;
+            	coord.world_id = BitConverter.ToInt32(l.context, 36);
+            	coord.map_id = BitConverter.ToInt32(l.context, 28);
+				coord.identity = rawIdentity.name;
+                coord.profession = rawIdentity.profession;
+                coord.team_color_id = rawIdentity.team_color_id;
+                coord.commander = rawIdentity.commander;
 				lastTick = l.uiTick;
                 tick = l.uiTick;
                 if (last != coord)

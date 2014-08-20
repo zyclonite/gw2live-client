@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gw2location", "gw2location\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gw2mapClient", "gw2mapClient\gw2mapClient.csproj", "{559C9F09-AC47-4320-8024-10E4F3E5A7CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gw2mapTester", "gw2mapTester\gw2mapTester.csproj", "{F16D64C9-7587-4CD0-8D9E-3B685EF99819}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,16 +28,6 @@ Global
 		{BEB0325E-712F-45B7-A6E7-7B14EC148FEF}.Release|Mixed Platforms.Build.0 = Release|x86
 		{BEB0325E-712F-45B7-A6E7-7B14EC148FEF}.Release|x86.ActiveCfg = Release|x86
 		{BEB0325E-712F-45B7-A6E7-7B14EC148FEF}.Release|x86.Build.0 = Release|x86
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|x86.ActiveCfg = Release|Any CPU
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -46,6 +38,16 @@ Global
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{559C9F09-AC47-4320-8024-10E4F3E5A7CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F16D64C9-7587-4CD0-8D9E-3B685EF99819}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

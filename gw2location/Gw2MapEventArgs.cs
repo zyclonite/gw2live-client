@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using gw2map.Model;
 
 namespace gw2map
 {

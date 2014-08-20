@@ -47,8 +47,9 @@ namespace gw2mapClient.Controller
         {
             this.BaseUrl = settings.BaseUrl;
             this.stateSubscribers = new List<IStateListener>();
-            location = new Gw2Location();
+            
              this.State = RecordingState.Stopped;
+             location = new Gw2Location();
         }
 
 
@@ -62,21 +63,24 @@ namespace gw2mapClient.Controller
         {
             if (this.Channel == 0 || this.BaseUrl == null)
                 return;
-
+            var msg = String.Empty;
             try
             {
                 location.Channel = this.Channel;
                 location.BaseUrl = this.BaseUrl;
                 location.MapStateChanged += Gw2StateChanged;
                 location.Start();
-                this.State = RecordingState.Started;
-                var msg = "Gw2Map Client Started";
-                NotifyMessage(msg);
-                
+                this.State = location.State != Gw2MapState.Attached ? RecordingState.Started : RecordingState.Recording;
+                msg = location.State != Gw2MapState.Attached ? "Gw2Map Client Started" : "Started capturing data";
+
             }
             catch (Exception e)
             {
-                var msg = "Couldn't Start Gw2Client" + e.Message;
+                this.State = RecordingState.Stopped;
+                msg = "Couldn't Start Gw2Client" + e.Message;
+            }
+            finally
+            {
                 NotifyMessage(msg);
             }
 
